@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+message Message {
+  Head head = 1;
+  Body body = 2;
+};
+
+message Head {
+  uint32 version = 1;
+  uint32 random_num = 2;
+  uint32 flow_no = 3;
+  MessageType message_type = 4;
+  bool request = 5;
+  // string call_purpose = 6;
+  string auth_key = 6;
+};
+
+message Body {
+  oneof body_oneof {
+    StatusReportRequest status_report_request = 1;
+    StatusReportResponse status_report_report = 2;
+  } 
+};
+
+enum MessageType {
+  UNUSED_MESSAGE_TYPE = 0;
+  PING = 1;
+  PONG = 2;
+  STATUS_REPORT_REQUEST = 3;
+  STATUS_REPORT_RESPONSE = 4;
+};
+
+enum Retcode {
+  SUCCESS = 0;
+  FAIL = -1;
+  NOT_MASTER = -100;
+  INVALID_KEY = -101;
+};
+
+message ResponseCode {
+  Retcode retcode = 1;
+  string error_message = 2;
+}
+
+message StatusReportRequest {
+  google.protobuf.Timestamp capture_time = 1;  // 获取信息的时间
+  uint32 cpu_number = 2;
+  uint32 memory_cap = 3;  // MB
+  float load = 4;
+  uint32 cpu_usage = 5;  // 百分比
+  uint32 memory_usage = 6;  // 百分比
+  uint32 process_number = 7;
+};
+
+message StatusReportResponse {
+  google.protobuf.Timestamp handle_time = 1;
+  ResponseCode response = 2;
+};
