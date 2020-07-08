@@ -33,13 +33,14 @@ class RpcClient:
   async def get_connection(self, address: Tuple[str, int]) -> StreamWriter:
     address_str = str(address)
     if address_str in self.alive_connections.keys():
+      print("reuse connection")
       return self.alive_connections[address_str][2]
     else:
       # 尝试建立连接，超时1s
       fut = asyncio.open_connection(address[0], address[1])
       try:
         reader, writer = await asyncio.wait_for(fut, timeout=1)
-      except asyncio.TimeoutError:
+      except:
         return None
       self.conn_id += 1
       self.alive_connections[address_str] = (self.conn_id, reader, writer)
@@ -49,7 +50,11 @@ class RpcClient:
       return writer
   
   def remove_connection(self, conn_id: int):
-    pass
+    if not conn_id in self.connection_map.keys():
+      return
+    address_str = self.connection_map[conn_id]
+    self.alive_connections.pop(address_str)
+    self.connection_map.pop(conn_id)
 
   async def read_and_parse(self, conn_id: int):
     if not conn_id in self.connection_map.keys():
@@ -60,11 +65,15 @@ class RpcClient:
     while True:
       try:
         content = await reader.read(8 * 1024)
-      except:
-        break
+      except Exception as ex:
+        print("read exception", ex)
+        self.remove_connection(conn_id)
+        return
       if len(content) == 0:
         # 对端shutdown write
-        pass
+        print("peer shutdown")
+        self.remove_connection(conn_id)
+        return
       buffer += content
       while True:
         if len(buffer) < 4:
