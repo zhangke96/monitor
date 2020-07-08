@@ -78,11 +78,11 @@ class RpcClient:
       while True:
         if len(buffer) < 4:
           break
-        except_length = struct.unpack('!I', buffer[0: 4])
-        if except_length[0] + 4 > len(buffer):
+        except_length = struct.unpack('!I', buffer[0: 4])[0]
+        if except_length + 4 > len(buffer):
           break
         message_bytes = buffer[4: except_length + 4]
-        response_message = protocol.message()
+        response_message = protocol.Message()
         response_message.ParseFromString(message_bytes)
         flow_no = response_message.head.flow_no
         future = self.get_future(conn_id, flow_no)
