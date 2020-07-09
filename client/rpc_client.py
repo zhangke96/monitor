@@ -87,7 +87,7 @@ class RpcClient:
         flow_no = response_message.head.flow_no
         future = self.get_future(conn_id, flow_no)
         if future:
-          future.set_result(response)
+          future.set_result(response_message)
         buffer = buffer[except_length + 4:]
 
   
@@ -117,7 +117,6 @@ class RpcClient:
       return (SendMessageResult.FAIL, None)
     try:
       response = await asyncio.wait_for(future, timeout)
-      print("success!!!!")
     except asyncio.TimeoutError:
       # 删除future
       self.remove_future(conn_id, flow_no)

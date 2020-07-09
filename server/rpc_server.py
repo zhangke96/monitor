@@ -6,10 +6,12 @@ from typing import MutableMapping, Tuple
 class RpcServer:
   conn_id = 0
   alive_connections = MutableMapping[int, Tuple[StreamReader, StreamWriter]]
+  message_handles = {}
 
   def __init__(self) -> None:
     self.conn_id = 0
     self.alive_connections = {}
+    self.message_handles = {}
 
   def start(self):
     coro = asyncio.start_server(self.connect_handle, '127.0.0.1', 8888)
@@ -50,14 +52,15 @@ class RpcServer:
         message_bytes = buffer[4: except_length + 4]
         request_message = protocol.Message()
         request_message.ParseFromString(message_bytes)
-        print(request_message)
-        # flow_no = response_message.head.flow_no
-        # future = self.get_future(conn_id, flow_no)
+        # print(request_message)
+        message_type = request_message.head.message_type
+        if message_type in self.message_handles.keys():
+          response = self.message_handles[message_type](request_message)
+          encode_str = response.SerializeToString()
+          writer.write(struct.pack('!I', len(encode_str)))
+          writer.write(encode_str)
         buffer = buffer[except_length + 4:]
     
 
-  async def register_handle():
-    pass
-
-
-
+  def register_handle(self, message_type, message_handle):
+    self.message_handles[message_type] = message_handle
