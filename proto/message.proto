@@ -20,7 +20,7 @@ message Head {
 message Body {
   oneof body_oneof {
     StatusReportRequest status_report_request = 1;
-    StatusReportResponse status_report_report = 2;
+    StatusReportResponse status_report_response = 2;
   } 
 };
 
@@ -48,7 +48,7 @@ message StatusReportRequest {
   google.protobuf.Timestamp capture_time = 1;  // 获取信息的时间
   uint32 cpu_number = 2;
   uint32 memory_cap = 3;  // MB
-  float load = 4;
+  double load = 4;
   uint32 cpu_usage = 5;  // 百分比
   uint32 memory_usage = 6;  // 百分比
   uint32 process_number = 7;

@@ -5,6 +5,7 @@ import sys, getopt, os, time, asyncio, random
 import message_pb2 as protocol
 import rpc_client
 from typing import MutableMapping, Tuple
+from google.protobuf.timestamp_pb2 import Timestamp
 
 def help():
   print('Usage:', sys.argv[0], " -k auth_key -s server_ip:server_port")
@@ -133,11 +134,17 @@ async def status_report():
   client = rpc_client.RpcClient()
   while True:
     await asyncio.sleep(1)
-    print(time.time())
-    print(get_mem_info())
-    print(get_cpu_info())
-    print(get_load_avg())
+    mem_info = get_mem_info()
+    cpu_info = get_cpu_info()
+    load_avg = get_load_avg()
     status_report_request = make_request(protocol.STATUS_REPORT_REQUEST)
+    body = status_report_request.body.status_report_request
+    body.capture_time.GetCurrentTime()
+    body.cpu_number = cpu_info[1]
+    body.memory_cap = mem_info[0]
+    body.load = load_avg
+    body.cpu_usage = cpu_info[0]
+    body.memory_usage = mem_info[1]
     result = await client.send_message(servers[0], status_report_request)
     print(result)
 
