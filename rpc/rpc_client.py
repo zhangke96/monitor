@@ -1,4 +1,4 @@
-import asyncio, struct
+import asyncio, struct, logging
 from random import expovariate
 from asyncio.futures import Future
 from typing import MutableMapping, Tuple
@@ -26,6 +26,7 @@ class RpcClient:
   def get_connection_id(self, address: Tuple[str, int]) -> int:
     address_str = str(address)
     if not address_str in self.alive_connections.keys():
+      logging.warning("address:%s not in alive connections", address)
       return 0
     else:
       return self.alive_connections[address_str][0]
@@ -33,18 +34,22 @@ class RpcClient:
   async def get_connection(self, address: Tuple[str, int]) -> StreamWriter:
     address_str = str(address)
     if address_str in self.alive_connections.keys():
-      print("reuse connection")
+      logging.debug("reuse connection to:%s", address)
       return self.alive_connections[address_str][2]
     else:
       # 尝试建立连接，超时1s
+      logging.debug("try to connect:%s", address)
       fut = asyncio.open_connection(address[0], address[1])
       try:
         reader, writer = await asyncio.wait_for(fut, timeout=1)
-      except:
+        logging.info("connect to:%s success", address)
+      except Exception as ex:
+        logging.warning("connect to:%s %s", address, ex)
         return None
       self.conn_id += 1
       self.alive_connections[address_str] = (self.conn_id, reader, writer)
       self.connection_map[self.conn_id] = address_str
+      logging.debug("connection to:%s conn_id:%d", address, self.conn_id)
       # 运行解析函数
       asyncio.ensure_future(self.read_and_parse(self.conn_id))
       return writer
@@ -55,6 +60,7 @@ class RpcClient:
     address_str = self.connection_map[conn_id]
     self.alive_connections.pop(address_str)
     self.connection_map.pop(conn_id)
+    logging.debug("remove connection to address:%d conn_id:%d", address_str, conn_id)
 
   async def read_and_parse(self, conn_id: int):
     if not conn_id in self.connection_map.keys():
@@ -66,12 +72,12 @@ class RpcClient:
       try:
         content = await reader.read(8 * 1024)
       except Exception as ex:
-        print("read exception", ex)
+        logging.warning("read exception, address:%s conn_id:%d exception:%s", address_str, conn_id, ex)
         self.remove_connection(conn_id)
         return
       if len(content) == 0:
         # 对端shutdown write
-        print("peer shutdown")
+        logging.info("read eof, address:%s conn_id:%d", address_str, conn_id)
         self.remove_connection(conn_id)
         return
       buffer += content
@@ -84,6 +90,7 @@ class RpcClient:
         message_bytes = buffer[4: except_length + 4]
         response_message = protocol.Message()
         response_message.ParseFromString(message_bytes)
+        logging.debug("recv response from address:%s response:%s", address_str, response_message)
         flow_no = response_message.head.flow_no
         future = self.get_future(conn_id, flow_no)
         if future:
@@ -95,14 +102,20 @@ class RpcClient:
     assert(conn_id in self.connection_map.keys())
     if not conn_id in self.response_futures.keys():
       self.response_futures[conn_id] = {}
+    logging.debug("add response future, conn_id:%d flow_no:%d", conn_id, flow_no)
     self.response_futures[conn_id][flow_no] = asyncio.get_event_loop().create_future()
   
   def get_future(self, conn_id: int, flow_no: int) -> Future:
+    response_future = None
     if not conn_id in self.response_futures.keys():
-      return None
-    if not flow_no in self.response_futures[conn_id].keys():
-      return None
-    return self.response_futures[conn_id][flow_no]
+      response_future = None
+    elif not flow_no in self.response_futures[conn_id].keys():
+      response_future = None
+    else:
+      response_future = self.response_futures[conn_id][flow_no]
+    if not response_future:
+      logging.info("not found future for conn_id:%d flow_no:%d maybe timeout", conn_id, flow_no)
+    return response_future
   
   def remove_future(self, conn_id: int, flow_no: int):
     if not conn_id in self.response_futures.keys():
@@ -117,6 +130,7 @@ class RpcClient:
       return (SendMessageResult.FAIL, None)
     try:
       response = await asyncio.wait_for(future, timeout)
+      self.remove_future(conn_id, flow_no)
     except asyncio.TimeoutError:
       # 删除future
       self.remove_future(conn_id, flow_no)

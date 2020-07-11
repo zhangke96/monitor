@@ -1,7 +1,9 @@
-import asyncio, struct
+import asyncio, struct, logging
 from asyncio.streams import StreamReader, StreamWriter
 import message_pb2 as protocol
 from typing import MutableMapping, Tuple
+LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
+logging.basicConfig(filename='server.log', level=logging.DEBUG, format=LOG_FORMAT)
 
 class RpcServer:
   conn_id = 0
@@ -21,26 +23,30 @@ class RpcServer:
   async def connect_handle(self, reader: StreamReader, writer: StreamWriter):
     self.conn_id += 1
     self.alive_connections[self.conn_id] = (reader, writer)
-    print('Accept conn id:', self.conn_id, 'from:', writer.transport.get_extra_info('peername'))
+    logging.info('Accept from:%s conn_id:%d', writer.transport.get_extra_info('peername'), self.conn_id)
     asyncio.ensure_future(self.read_and_parse(self.conn_id))
+
+  def remove_connection(self):
+    pass
 
   async def read_and_parse(self, conn_id: int):
     if not conn_id in self.alive_connections.keys():
       return
     reader: StreamReader = self.alive_connections[conn_id][0]
     writer: StreamWriter = self.alive_connections[conn_id][1]
-    print('Read from conn id:', conn_id, ' peeraddr:', writer.transport.get_extra_info('peername'))
+    address = writer.transport.get_extra_info('peername')
+    logging.debug('Read from address:%s conn_id:%d', address, conn_id)
     buffer = bytes()
     while True:
       try:
         content = await reader.read(8 * 1024)
       except Exception as ex:
-        print("read excpetion", ex)
-        # remove_connection
+        logging.warning("read excpetion, address:%s conn_id:%d exception:%s", address, conn_id, ex)
+        remove_connection(conn_id)
         return
       if len(content) == 0:
-        print("peer shutdown")
-        # remove connection
+        logging.info("read eof, address:%s conn_id:%d", address, conn_id)
+        remove_connection(conn_id)
         return
       buffer += content
       while True:
@@ -52,13 +58,16 @@ class RpcServer:
         message_bytes = buffer[4: except_length + 4]
         request_message = protocol.Message()
         request_message.ParseFromString(message_bytes)
-        # print(request_message)
+        logging.debug("recv request from address:%s request:%s", address, request_message)
         message_type = request_message.head.message_type
         if message_type in self.message_handles.keys():
           response = self.message_handles[message_type](request_message)
+          logging.debug("send response to address:%s response:%s", address, response)
           encode_str = response.SerializeToString()
           writer.write(struct.pack('!I', len(encode_str)))
           writer.write(encode_str)
+        else:
+          logging.warning("unregister message_type:%d", message_type)
         buffer = buffer[except_length + 4:]
     
 

@@ -1,11 +1,15 @@
 from asyncio.streams import StreamReader, StreamWriter
-# from client.rpc_client import RpcClient
 from os import write
-import sys, getopt, os, time, asyncio, random
-import message_pb2 as protocol
-import rpc_client
+import sys, getopt, os, time, asyncio, random, logging
+sys.path.append("..")
+sys.path.extend([os.path.join(root, name) for root, dirs, _ in os.walk("../") for name in dirs])
 from typing import MutableMapping, Tuple
 from google.protobuf.timestamp_pb2 import Timestamp
+from rpc import rpc_client
+from rpc import message_pb2 as protocol
+
+LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
+logging.basicConfig(filename='client.log', level=logging.DEBUG, format=LOG_FORMAT)
 
 def help():
   print('Usage:', sys.argv[0], " -k auth_key -s server_ip:server_port")
@@ -80,7 +84,9 @@ def get_cpu_info():
         last_cpu_use_info = cpu_use_info
       else:
         cpu_number += 1
-  return (cpu_usage, cpu_number)
+  cpu_info = (cpu_usage, cpu_number)
+  logging.debug("cpu usage:%s", cpu_info)
+  return cpu_info
 
 def get_mem_info():
   with open('/proc/meminfo', 'r') as memory_file:
@@ -105,13 +111,17 @@ def get_mem_info():
       memory_free = memory_info['MemFree']
       memory_used = memory_total - memory_free
       usage = int(memory_used * 100 / memory_total)
-    return (total_mem, usage)
+    memory_info = (total_mem, usage)
+    logging.debug("memory usage:%s", memory_info)
+    return memory_info
 
 def get_load_avg():
   with open('/proc/loadavg', 'r') as load_avg_file:
     load_str = load_avg_file.readline()
     load_split_result = load_str.split(' ')
-    return float(load_split_result[0])
+    load = float(load_split_result[0])
+    logging.debug("load:%f", load)
+    return load
 
 flow_no = 1
 
@@ -125,7 +135,6 @@ def make_request(message_type: protocol.MessageType) -> protocol.Message:
   message.head.message_type = message_type
   message.head.request = True
   message.head.auth_key = auth_key
-  print(message)
   return message
 
 servers = []
@@ -146,20 +155,10 @@ async def status_report():
     body.cpu_usage = cpu_info[0]
     body.memory_usage = mem_info[1]
     result = await client.send_message(servers[0], status_report_request)
-    print(result)
+    logging.info("send to:%s %s", servers[0], result)
 
 if __name__ == '__main__':
   main()
   get_cpu_info()
-  status_report_request = protocol.StatusReportRequest()
-  status_report_request.cpu_number = 1
-  print(status_report_request.SerializeToString())
   loop = asyncio.get_event_loop()
   loop.run_until_complete(status_report())
-
-
-# 使用asyncio
-# 打开链接超时如何处理
-# asyncio.open_connection()
-# 发送数据超时如何处理
-# 链接断开如何感知
