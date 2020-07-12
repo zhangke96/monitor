@@ -40,7 +40,7 @@ def transfer_status_record(report_request: protocol.StatusReportRequest):
   return result
 
 def record_report(auth_key: str, report_request: protocol.StatusReportRequest):
-  logging.info("insert record, client:%s")
+  logging.info("insert record, client:%s", auth_key)
   result = monitor_data.insert_one({"client": auth_key, "status": transfer_status_record(report_request)})
   return True
 

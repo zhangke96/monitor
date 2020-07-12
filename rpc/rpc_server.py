@@ -26,8 +26,13 @@ class RpcServer:
     logging.info('Accept from:%s conn_id:%d', writer.transport.get_extra_info('peername'), self.conn_id)
     asyncio.ensure_future(self.read_and_parse(self.conn_id))
 
-  def remove_connection(self):
-    pass
+  def remove_connection(self, conn_id: int):
+    if not conn_id in self.alive_connections.keys():
+      logging.warning("Remove connection not exist conn_id:%d", conn_id)
+      return
+    address = self.alive_connections[conn_id][0].transport.get_extra_info('peername')
+    logging.info("Remove connection address:%s conn_id:%d", address, conn_id)
+    self.alive_connections.pop(conn_id)
 
   async def read_and_parse(self, conn_id: int):
     if not conn_id in self.alive_connections.keys():
