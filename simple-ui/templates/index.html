@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete</title>
+    <link rel="stylesheet" href="/static/css/layui.css" media="all">
+    <script src="/static/layui.js"></script>
+    <script>
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            laydate.render({
+                elem: '#date',
+                format: "yyyy-MM-ddTHH:mm:ss",
+                value: '2020-07-14T00:00:00'
+            });
+        });
+
+        function up() {
+            date = document.getElementsByName("date")[0].value + "+08:00";
+            type = document.getElementsByName("type")[0].value;
+            date = encodeURIComponent(date);
+            window.location = `/index?type=${type}&date=${date}`
+        }
+    </script>
+    <style>
+        .box {
+            margin: 0 auto;
+            width: 500px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <label>
+        <span>Type</span>
+        <select name="type">
+            <option value="CPU">CPU</option>
+            <option value="MEM" selected>MEM</option>
+        </select>
+    </label>
+    <br>
+    <label>
+        <span>Date</span>
+        <input type="text" class="layui-input" id="date" name="date">
+    </label>
+    <br>
+    <button onclick="up()">Request</button>
+    <br>
+    <a style="font-size: large" href="/index">Clear Result</a>
+</div>
+<div style="margin-top: 10px">
+    {{div |safe}}
+</div>
+
+</body>
+</html>
