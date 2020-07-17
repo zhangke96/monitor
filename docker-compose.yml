@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  monitor:
+    image: monitor:latest
+    container_name: monitor
+    networks:
+      default:
+        ipv4_address: 192.168.168.52
+networks:
+  default:
+    external:
+      name: cloud
