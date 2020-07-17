@@ -12,18 +12,18 @@ app = Flask(__name__, template_folder = "templates", static_folder = "static")
 app.debug = True
 
 log = Logger(time_offset = LogTimeUTCOffset.UTC8).logger
-db_session = pymongo.MongoClient(host = "localhost")
-db = db_session["test"]
-table = db["table"]
+db_client = pymongo.MongoClient(host = "localhost")
+db = db_client["monitor"]
+table = db["monitor_data"]
 
 
 @app.route("/index", methods = ["GET"])
-def test1():
+def index():
     """
     以分钟为粒度
     :return:
     """
-    log.info("index")
+    log.info("--------start--------")
     if HttpRequest.args.__len__() == 0:
         return render_template("index.html")
 
