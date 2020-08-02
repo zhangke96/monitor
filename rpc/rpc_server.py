@@ -1,22 +1,22 @@
 import asyncio, struct, logging
 from asyncio.streams import StreamReader, StreamWriter
-import message_pb2 as protocol
+from . import message_pb2 as protocol
 from typing import MutableMapping, Tuple
-LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
-logging.basicConfig(filename='server.log', level=logging.DEBUG, format=LOG_FORMAT)
 
 class RpcServer:
   conn_id = 0
   alive_connections = MutableMapping[int, Tuple[StreamReader, StreamWriter]]
   message_handles = {}
 
-  def __init__(self) -> None:
+  def __init__(self, address='127.0.0.1', port=8888) -> None:
+    self.address = address
+    self.port = port
     self.conn_id = 0
     self.alive_connections = {}
     self.message_handles = {}
 
   def start(self):
-    coro = asyncio.start_server(self.connect_handle, '127.0.0.1', 8888)
+    coro = asyncio.start_server(self.connect_handle, self.address, self.port)
     loop = asyncio.get_event_loop()
     server = loop.run_until_complete(coro)
 
@@ -78,3 +78,12 @@ class RpcServer:
 
   def register_handle(self, message_type, message_handle):
     self.message_handles[message_type] = message_handle
+
+def make_response(request: protocol.Message, response_message_type: protocol.MessageType):
+  response = protocol.Message()
+  response.head.version = request.head.version
+  response.head.random_num = request.head.random_num
+  response.head.flow_no = request.head.flow_no
+  response.head.message_type = response_message_type
+  response.head.request = False
+  return response

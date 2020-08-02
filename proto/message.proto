@@ -5,7 +5,7 @@ import "google/protobuf/timestamp.proto";
 message Message {
   Head head = 1;
   Body body = 2;
-};
+}
 
 message Head {
   uint32 version = 1;
@@ -15,14 +15,18 @@ message Head {
   bool request = 5;
   // string call_purpose = 6;
   string auth_key = 6;
-};
+}
 
 message Body {
   oneof body_oneof {
     StatusReportRequest status_report_request = 1;
     StatusReportResponse status_report_response = 2;
-  } 
-};
+    PingMonitorManageRequest ping_monitor_manage_request = 101;
+    PingMonitorManageResponse ping_monitor_manage_response = 102;
+    PingMonitorGetRecordRequest ping_monitor_get_record_request = 103;
+    PingMonitorGetRecordResponse ping_monitor_get_record_response = 104;
+  }
+}
 
 enum MessageType {
   UNUSED_MESSAGE_TYPE = 0;
@@ -30,14 +34,20 @@ enum MessageType {
   PONG = 2;
   STATUS_REPORT_REQUEST = 3;
   STATUS_REPORT_RESPONSE = 4;
-};
+  PING_MONITOR_MANAGE_REQUEST = 101;
+  PING_MONITOR_MANAGE_RESPONSE = 102;
+  PING_MONITOR_GET_RECORD_REQUEST = 103;
+  PING_MONITOR_GET_RECORD_RESPONSE = 104;
+}
 
 enum Retcode {
   SUCCESS = 0;
   FAIL = -1;
   NOT_MASTER = -100;
   INVALID_KEY = -101;
-};
+  EMPTY = -102;
+  NOT_EXIST = -103;
+}
 
 message ResponseCode {
   Retcode retcode = 1;
@@ -52,9 +62,42 @@ message StatusReportRequest {
   uint32 cpu_usage = 5;  // 百分比
   uint32 memory_usage = 6;  // 百分比
   uint32 process_number = 7;
-};
+}
 
 message StatusReportResponse {
   google.protobuf.Timestamp handle_time = 1;
   ResponseCode response = 2;
-};
+}
+
+enum PingMonitorManageAction {
+  LIST_ALL_MONITOR = 0;
+  START_MONITOR = 1;
+  STOP_MONITOR = 2;
+}
+
+message PingMonitorManageRequest {
+  PingMonitorManageAction action = 1;
+  string hostname = 2;
+}
+
+message PingMonitorManageResponse {
+  ResponseCode retcode = 1;
+  repeated string hostnames = 2;
+}
+
+message PingMonitorGetRecordRequest {
+  string hostname = 1;
+  // 获取时间
+}
+
+message PingMonitorRecord {
+  string address = 1;
+  google.protobuf.Timestamp begin_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+  int32 delay_time = 4;   // ms, -1表示超时
+}
+
+message PingMonitorGetRecordResponse {
+  ResponseCode retcode = 1;
+  repeated PingMonitorRecord records = 2;
+}

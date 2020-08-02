@@ -1,10 +1,10 @@
-import asyncio, struct, logging
+import asyncio, struct, logging, random
 from random import expovariate
 from asyncio.futures import Future
 from typing import MutableMapping, Tuple
 from asyncio.streams import StreamReader, StreamWriter
 from enum import Enum
-import message_pb2 as protocol
+from . import message_pb2 as protocol
 
 class SendMessageResult(Enum):
   SUCCESS = 0
@@ -151,3 +151,17 @@ class RpcClient:
     writer.write(encode_str)
     result, response = await self.wait_for_response(conn_id, message.head.flow_no, 1)
     return (result, response)
+
+flow_no = 0
+
+def make_request(message_type: protocol.MessageType) -> protocol.Message:
+  message = protocol.Message()
+  message.head.version = 1
+  message.head.random_num = random.randint(1, 2**32 - 1)
+  global flow_no
+  message.head.flow_no = flow_no
+  flow_no += 1
+  message.head.message_type = message_type
+  message.head.request = True
+  # message.head.auth_key = auth_key
+  return message
