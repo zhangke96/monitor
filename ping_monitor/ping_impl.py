@@ -65,7 +65,7 @@ class Ping(object):
     except socket.error as e:
       print(e)
       return
-    while True:
+    while self.status != self.Status.STOP:
       self.send_ping()
       delay = self.recv_pong()
       if self.reporter:
@@ -123,7 +123,7 @@ class Ping(object):
             if ping_packet.load(recv_packet):
               if ping_packet.identifier == self.identifier and ping_packet.seqno == self.seqno & 0xFFFF:
                 print("now time:", time.time(), " start time:", self.send_time)
-                delay = time.time() - self.send_time
+                delay = time.time() * 1000000 - self.send_time * 1000000
                 break
           except BlockingIOError:
             break

@@ -2,6 +2,7 @@ import asyncio, logging, sys, os
 sys.path.append("..")
 sys.path.extend([os.path.join(root, name) for root, dirs, _ in os.walk("../") for name in dirs])
 from rpc import rpc_server
+from rpc.rpc_server import make_response
 from rpc import message_pb2 as protocol
 from google.protobuf.timestamp_pb2 import Timestamp
 import pymongo
@@ -15,15 +16,6 @@ db_client = pymongo.MongoClient(host='127.0.0.1', port=27017)
 db = db_client['monitor']
 auth_key_table = db['auth_key']
 monitor_data = db['monitor_data']
-
-def make_response(request: protocol.Message, response_message_type: protocol.MessageType):
-  response = protocol.Message()
-  response.head.version = request.head.version
-  response.head.random_num = request.head.random_num
-  response.head.flow_no = request.head.flow_no
-  response.head.message_type = response_message_type
-  response.head.request = False
-  return response
 
 def transfer_status_record(report_request: protocol.StatusReportRequest):
   result = {}
