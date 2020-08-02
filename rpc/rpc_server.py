@@ -23,14 +23,14 @@ class RpcServer:
   async def connect_handle(self, reader: StreamReader, writer: StreamWriter):
     self.conn_id += 1
     self.alive_connections[self.conn_id] = (reader, writer)
-    logging.info('Accept from:%s conn_id:%d', writer.transport.get_extra_info('peername'), self.conn_id)
+    logging.info('Accept from:%s conn_id:%d', writer._transport.get_extra_info('peername'), self.conn_id)
     asyncio.ensure_future(self.read_and_parse(self.conn_id))
 
   def remove_connection(self, conn_id: int):
     if not conn_id in self.alive_connections.keys():
       logging.warning("Remove connection not exist conn_id:%d", conn_id)
       return
-    address = self.alive_connections[conn_id][0].transport.get_extra_info('peername')
+    address = self.alive_connections[conn_id][0]._transport.get_extra_info('peername')
     logging.info("Remove connection address:%s conn_id:%d", address, conn_id)
     self.alive_connections.pop(conn_id)
 
@@ -39,7 +39,7 @@ class RpcServer:
       return
     reader: StreamReader = self.alive_connections[conn_id][0]
     writer: StreamWriter = self.alive_connections[conn_id][1]
-    address = writer.transport.get_extra_info('peername')
+    address = writer._transport.get_extra_info('peername')
     logging.debug('Read from address:%s conn_id:%d', address, conn_id)
     buffer = bytes()
     while True:
@@ -47,11 +47,11 @@ class RpcServer:
         content = await reader.read(8 * 1024)
       except Exception as ex:
         logging.warning("read excpetion, address:%s conn_id:%d exception:%s", address, conn_id, ex)
-        remove_connection(conn_id)
+        self.remove_connection(conn_id)
         return
       if len(content) == 0:
         logging.info("read eof, address:%s conn_id:%d", address, conn_id)
-        remove_connection(conn_id)
+        self.remove_connection(conn_id)
         return
       buffer += content
       while True:

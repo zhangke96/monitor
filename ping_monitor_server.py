@@ -97,7 +97,7 @@ def GetRecordHandle(message: protocol.Message):
   return response
 
 if __name__ == '__main__':
-  server = rpc_server.RpcServer()
+  server = rpc_server.RpcServer('0.0.0.0', 8888)
   server.register_handle(protocol.PING_MONITOR_MANAGE_REQUEST, ManageHandle)
   server.register_handle(protocol.PING_MONITOR_GET_RECORD_REQUEST, GetRecordHandle)
   server.start()
