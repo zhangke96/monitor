@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\rmessage.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"3\n\x07Message\x12\x13\n\x04head\x18\x01 \x01(\x0b\x32\x05.Head\x12\x13\n\x04\x62ody\x18\x02 \x01(\x0b\x32\x05.Body\"\x83\x01\n\x04Head\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\x12\n\nrandom_num\x18\x02 \x01(\r\x12\x0f\n\x07\x66low_no\x18\x03 \x01(\r\x12\"\n\x0cmessage_type\x18\x04 \x01(\x0e\x32\x0c.MessageType\x12\x0f\n\x07request\x18\x05 \x01(\x08\x12\x10\n\x08\x61uth_key\x18\x06 \x01(\t\"\x84\x01\n\x04\x42ody\x12\x35\n\x15status_report_request\x18\x01 \x01(\x0b\x32\x14.StatusReportRequestH\x00\x12\x37\n\x16status_report_response\x18\x02 \x01(\x0b\x32\x15.StatusReportResponseH\x00\x42\x0c\n\nbody_oneof\"@\n\x0cResponseCode\x12\x19\n\x07retcode\x18\x01 \x01(\x0e\x32\x08.Retcode\x12\x15\n\rerror_message\x18\x02 \x01(\t\"\xbe\x01\n\x13StatusReportRequest\x12\x30\n\x0c\x63\x61pture_time\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x12\n\ncpu_number\x18\x02 \x01(\r\x12\x12\n\nmemory_cap\x18\x03 \x01(\r\x12\x0c\n\x04load\x18\x04 \x01(\x01\x12\x11\n\tcpu_usage\x18\x05 \x01(\r\x12\x14\n\x0cmemory_usage\x18\x06 \x01(\r\x12\x16\n\x0eprocess_number\x18\x07 \x01(\r\"h\n\x14StatusReportResponse\x12/\n\x0bhandle_time\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x1f\n\x08response\x18\x02 \x01(\x0b\x32\r.ResponseCode*q\n\x0bMessageType\x12\x17\n\x13UNUSED_MESSAGE_TYPE\x10\x00\x12\x08\n\x04PING\x10\x01\x12\x08\n\x04PONG\x10\x02\x12\x19\n\x15STATUS_REPORT_REQUEST\x10\x03\x12\x1a\n\x16STATUS_REPORT_RESPONSE\x10\x04*\\\n\x07Retcode\x12\x0b\n\x07SUCCESS\x10\x00\x12\x11\n\x04\x46\x41IL\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x17\n\nNOT_MASTER\x10\x9c\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x18\n\x0bINVALID_KEY\x10\x9b\xff\xff\xff\xff\xff\xff\xff\xff\x01\x62\x06proto3')
+  serialized_pb=_b('\n\rmessage.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"3\n\x07Message\x12\x13\n\x04head\x18\x01 \x01(\x0b\x32\x05.Head\x12\x13\n\x04\x62ody\x18\x02 \x01(\x0b\x32\x05.Body\"\x83\x01\n\x04Head\x12\x0f\n\x07version\x18\x01 \x01(\r\x12\x12\n\nrandom_num\x18\x02 \x01(\r\x12\x0f\n\x07\x66low_no\x18\x03 \x01(\r\x12\"\n\x0cmessage_type\x18\x04 \x01(\x0e\x32\x0c.MessageType\x12\x0f\n\x07request\x18\x05 \x01(\x08\x12\x10\n\x08\x61uth_key\x18\x06 \x01(\t\"\x9e\x03\n\x04\x42ody\x12\x35\n\x15status_report_request\x18\x01 \x01(\x0b\x32\x14.StatusReportRequestH\x00\x12\x37\n\x16status_report_response\x18\x02 \x01(\x0b\x32\x15.StatusReportResponseH\x00\x12@\n\x1bping_monitor_manage_request\x18\x65 \x01(\x0b\x32\x19.PingMonitorManageRequestH\x00\x12\x42\n\x1cping_monitor_manage_response\x18\x66 \x01(\x0b\x32\x1a.PingMonitorManageResponseH\x00\x12G\n\x1fping_monitor_get_record_request\x18g \x01(\x0b\x32\x1c.PingMonitorGetRecordRequestH\x00\x12I\n ping_monitor_get_record_response\x18h \x01(\x0b\x32\x1d.PingMonitorGetRecordResponseH\x00\x42\x0c\n\nbody_oneof\"@\n\x0cResponseCode\x12\x19\n\x07retcode\x18\x01 \x01(\x0e\x32\x08.Retcode\x12\x15\n\rerror_message\x18\x02 \x01(\t\"\xbe\x01\n\x13StatusReportRequest\x12\x30\n\x0c\x63\x61pture_time\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x12\n\ncpu_number\x18\x02 \x01(\r\x12\x12\n\nmemory_cap\x18\x03 \x01(\r\x12\x0c\n\x04load\x18\x04 \x01(\x01\x12\x11\n\tcpu_usage\x18\x05 \x01(\r\x12\x14\n\x0cmemory_usage\x18\x06 \x01(\r\x12\x16\n\x0eprocess_number\x18\x07 \x01(\r\"h\n\x14StatusReportResponse\x12/\n\x0bhandle_time\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x1f\n\x08response\x18\x02 \x01(\x0b\x32\r.ResponseCode\"V\n\x18PingMonitorManageRequest\x12(\n\x06\x61\x63tion\x18\x01 \x01(\x0e\x32\x18.PingMonitorManageAction\x12\x10\n\x08hostname\x18\x02 \x01(\t\"N\n\x19PingMonitorManageResponse\x12\x1e\n\x07retcode\x18\x01 \x01(\x0b\x32\r.ResponseCode\x12\x11\n\thostnames\x18\x02 \x03(\t\"/\n\x1bPingMonitorGetRecordRequest\x12\x10\n\x08hostname\x18\x01 \x01(\t\"\x96\x01\n\x11PingMonitorRecord\x12\x0f\n\x07\x61\x64\x64ress\x18\x01 \x01(\t\x12.\n\nbegin_time\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12,\n\x08\x65nd_time\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x12\n\ndelay_time\x18\x04 \x01(\x05\"c\n\x1cPingMonitorGetRecordResponse\x12\x1e\n\x07retcode\x18\x01 \x01(\x0b\x32\r.ResponseCode\x12#\n\x07records\x18\x02 \x03(\x0b\x32\x12.PingMonitorRecord*\xff\x01\n\x0bMessageType\x12\x17\n\x13UNUSED_MESSAGE_TYPE\x10\x00\x12\x08\n\x04PING\x10\x01\x12\x08\n\x04PONG\x10\x02\x12\x19\n\x15STATUS_REPORT_REQUEST\x10\x03\x12\x1a\n\x16STATUS_REPORT_RESPONSE\x10\x04\x12\x1f\n\x1bPING_MONITOR_MANAGE_REQUEST\x10\x65\x12 \n\x1cPING_MONITOR_MANAGE_RESPONSE\x10\x66\x12#\n\x1fPING_MONITOR_GET_RECORD_REQUEST\x10g\x12$\n PING_MONITOR_GET_RECORD_RESPONSE\x10h*\x88\x01\n\x07Retcode\x12\x0b\n\x07SUCCESS\x10\x00\x12\x11\n\x04\x46\x41IL\x10\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x17\n\nNOT_MASTER\x10\x9c\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x18\n\x0bINVALID_KEY\x10\x9b\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x12\n\x05\x45MPTY\x10\x9a\xff\xff\xff\xff\xff\xff\xff\xff\x01\x12\x16\n\tNOT_EXIST\x10\x99\xff\xff\xff\xff\xff\xff\xff\xff\x01*T\n\x17PingMonitorManageAction\x12\x14\n\x10LIST_ALL_MONITOR\x10\x00\x12\x11\n\rSTART_MONITOR\x10\x01\x12\x10\n\x0cSTOP_MONITOR\x10\x02\x62\x06proto3')
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
@@ -51,11 +51,27 @@ _MESSAGETYPE = _descriptor.EnumDescriptor(
       name='STATUS_REPORT_RESPONSE', index=4, number=4,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='PING_MONITOR_MANAGE_REQUEST', index=5, number=101,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='PING_MONITOR_MANAGE_RESPONSE', index=6, number=102,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='PING_MONITOR_GET_RECORD_REQUEST', index=7, number=103,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='PING_MONITOR_GET_RECORD_RESPONSE', index=8, number=104,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=737,
-  serialized_end=850,
+  serialized_start=1491,
+  serialized_end=1746,
 )
 _sym_db.RegisterEnumDescriptor(_MESSAGETYPE)
 
@@ -82,24 +98,68 @@ _RETCODE = _descriptor.EnumDescriptor(
       name='INVALID_KEY', index=3, number=-101,
       serialized_options=None,
       type=None),
+    _descriptor.EnumValueDescriptor(
+      name='EMPTY', index=4, number=-102,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='NOT_EXIST', index=5, number=-103,
+      serialized_options=None,
+      type=None),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=852,
-  serialized_end=944,
+  serialized_start=1749,
+  serialized_end=1885,
 )
 _sym_db.RegisterEnumDescriptor(_RETCODE)
 
 Retcode = enum_type_wrapper.EnumTypeWrapper(_RETCODE)
+_PINGMONITORMANAGEACTION = _descriptor.EnumDescriptor(
+  name='PingMonitorManageAction',
+  full_name='PingMonitorManageAction',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='LIST_ALL_MONITOR', index=0, number=0,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='START_MONITOR', index=1, number=1,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='STOP_MONITOR', index=2, number=2,
+      serialized_options=None,
+      type=None),
+  ],
+  containing_type=None,
+  serialized_options=None,
+  serialized_start=1887,
+  serialized_end=1971,
+)
+_sym_db.RegisterEnumDescriptor(_PINGMONITORMANAGEACTION)
+
+PingMonitorManageAction = enum_type_wrapper.EnumTypeWrapper(_PINGMONITORMANAGEACTION)
 UNUSED_MESSAGE_TYPE = 0
 PING = 1
 PONG = 2
 STATUS_REPORT_REQUEST = 3
 STATUS_REPORT_RESPONSE = 4
+PING_MONITOR_MANAGE_REQUEST = 101
+PING_MONITOR_MANAGE_RESPONSE = 102
+PING_MONITOR_GET_RECORD_REQUEST = 103
+PING_MONITOR_GET_RECORD_RESPONSE = 104
 SUCCESS = 0
 FAIL = -1
 NOT_MASTER = -100
 INVALID_KEY = -101
+EMPTY = -102
+NOT_EXIST = -103
+LIST_ALL_MONITOR = 0
+START_MONITOR = 1
+STOP_MONITOR = 2
 
 
 
@@ -228,6 +288,34 @@ _BODY = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ping_monitor_manage_request', full_name='Body.ping_monitor_manage_request', index=2,
+      number=101, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ping_monitor_manage_response', full_name='Body.ping_monitor_manage_response', index=3,
+      number=102, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ping_monitor_get_record_request', full_name='Body.ping_monitor_get_record_request', index=4,
+      number=103, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='ping_monitor_get_record_response', full_name='Body.ping_monitor_get_record_response', index=5,
+      number=104, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -244,7 +332,7 @@ _BODY = _descriptor.Descriptor(
       index=0, containing_type=None, fields=[]),
   ],
   serialized_start=238,
-  serialized_end=370,
+  serialized_end=652,
 )
 
 
@@ -281,8 +369,8 @@ _RESPONSECODE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=372,
-  serialized_end=436,
+  serialized_start=654,
+  serialized_end=718,
 )
 
 
@@ -354,8 +442,8 @@ _STATUSREPORTREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=439,
-  serialized_end=629,
+  serialized_start=721,
+  serialized_end=911,
 )
 
 
@@ -392,8 +480,205 @@ _STATUSREPORTRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=631,
-  serialized_end=735,
+  serialized_start=913,
+  serialized_end=1017,
+)
+
+
+_PINGMONITORMANAGEREQUEST = _descriptor.Descriptor(
+  name='PingMonitorManageRequest',
+  full_name='PingMonitorManageRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='action', full_name='PingMonitorManageRequest.action', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='hostname', full_name='PingMonitorManageRequest.hostname', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1019,
+  serialized_end=1105,
+)
+
+
+_PINGMONITORMANAGERESPONSE = _descriptor.Descriptor(
+  name='PingMonitorManageResponse',
+  full_name='PingMonitorManageResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='retcode', full_name='PingMonitorManageResponse.retcode', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='hostnames', full_name='PingMonitorManageResponse.hostnames', index=1,
+      number=2, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1107,
+  serialized_end=1185,
+)
+
+
+_PINGMONITORGETRECORDREQUEST = _descriptor.Descriptor(
+  name='PingMonitorGetRecordRequest',
+  full_name='PingMonitorGetRecordRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='hostname', full_name='PingMonitorGetRecordRequest.hostname', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1187,
+  serialized_end=1234,
+)
+
+
+_PINGMONITORRECORD = _descriptor.Descriptor(
+  name='PingMonitorRecord',
+  full_name='PingMonitorRecord',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='address', full_name='PingMonitorRecord.address', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='begin_time', full_name='PingMonitorRecord.begin_time', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='end_time', full_name='PingMonitorRecord.end_time', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='delay_time', full_name='PingMonitorRecord.delay_time', index=3,
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1237,
+  serialized_end=1387,
+)
+
+
+_PINGMONITORGETRECORDRESPONSE = _descriptor.Descriptor(
+  name='PingMonitorGetRecordResponse',
+  full_name='PingMonitorGetRecordResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='retcode', full_name='PingMonitorGetRecordResponse.retcode', index=0,
+      number=1, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='records', full_name='PingMonitorGetRecordResponse.records', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1389,
+  serialized_end=1488,
 )
 
 _MESSAGE.fields_by_name['head'].message_type = _HEAD
@@ -401,24 +686,52 @@ _MESSAGE.fields_by_name['body'].message_type = _BODY
 _HEAD.fields_by_name['message_type'].enum_type = _MESSAGETYPE
 _BODY.fields_by_name['status_report_request'].message_type = _STATUSREPORTREQUEST
 _BODY.fields_by_name['status_report_response'].message_type = _STATUSREPORTRESPONSE
+_BODY.fields_by_name['ping_monitor_manage_request'].message_type = _PINGMONITORMANAGEREQUEST
+_BODY.fields_by_name['ping_monitor_manage_response'].message_type = _PINGMONITORMANAGERESPONSE
+_BODY.fields_by_name['ping_monitor_get_record_request'].message_type = _PINGMONITORGETRECORDREQUEST
+_BODY.fields_by_name['ping_monitor_get_record_response'].message_type = _PINGMONITORGETRECORDRESPONSE
 _BODY.oneofs_by_name['body_oneof'].fields.append(
   _BODY.fields_by_name['status_report_request'])
 _BODY.fields_by_name['status_report_request'].containing_oneof = _BODY.oneofs_by_name['body_oneof']
 _BODY.oneofs_by_name['body_oneof'].fields.append(
   _BODY.fields_by_name['status_report_response'])
 _BODY.fields_by_name['status_report_response'].containing_oneof = _BODY.oneofs_by_name['body_oneof']
+_BODY.oneofs_by_name['body_oneof'].fields.append(
+  _BODY.fields_by_name['ping_monitor_manage_request'])
+_BODY.fields_by_name['ping_monitor_manage_request'].containing_oneof = _BODY.oneofs_by_name['body_oneof']
+_BODY.oneofs_by_name['body_oneof'].fields.append(
+  _BODY.fields_by_name['ping_monitor_manage_response'])
+_BODY.fields_by_name['ping_monitor_manage_response'].containing_oneof = _BODY.oneofs_by_name['body_oneof']
+_BODY.oneofs_by_name['body_oneof'].fields.append(
+  _BODY.fields_by_name['ping_monitor_get_record_request'])
+_BODY.fields_by_name['ping_monitor_get_record_request'].containing_oneof = _BODY.oneofs_by_name['body_oneof']
+_BODY.oneofs_by_name['body_oneof'].fields.append(
+  _BODY.fields_by_name['ping_monitor_get_record_response'])
+_BODY.fields_by_name['ping_monitor_get_record_response'].containing_oneof = _BODY.oneofs_by_name['body_oneof']
 _RESPONSECODE.fields_by_name['retcode'].enum_type = _RETCODE
 _STATUSREPORTREQUEST.fields_by_name['capture_time'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 _STATUSREPORTRESPONSE.fields_by_name['handle_time'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 _STATUSREPORTRESPONSE.fields_by_name['response'].message_type = _RESPONSECODE
+_PINGMONITORMANAGEREQUEST.fields_by_name['action'].enum_type = _PINGMONITORMANAGEACTION
+_PINGMONITORMANAGERESPONSE.fields_by_name['retcode'].message_type = _RESPONSECODE
+_PINGMONITORRECORD.fields_by_name['begin_time'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
+_PINGMONITORRECORD.fields_by_name['end_time'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
+_PINGMONITORGETRECORDRESPONSE.fields_by_name['retcode'].message_type = _RESPONSECODE
+_PINGMONITORGETRECORDRESPONSE.fields_by_name['records'].message_type = _PINGMONITORRECORD
 DESCRIPTOR.message_types_by_name['Message'] = _MESSAGE
 DESCRIPTOR.message_types_by_name['Head'] = _HEAD
 DESCRIPTOR.message_types_by_name['Body'] = _BODY
 DESCRIPTOR.message_types_by_name['ResponseCode'] = _RESPONSECODE
 DESCRIPTOR.message_types_by_name['StatusReportRequest'] = _STATUSREPORTREQUEST
 DESCRIPTOR.message_types_by_name['StatusReportResponse'] = _STATUSREPORTRESPONSE
+DESCRIPTOR.message_types_by_name['PingMonitorManageRequest'] = _PINGMONITORMANAGEREQUEST
+DESCRIPTOR.message_types_by_name['PingMonitorManageResponse'] = _PINGMONITORMANAGERESPONSE
+DESCRIPTOR.message_types_by_name['PingMonitorGetRecordRequest'] = _PINGMONITORGETRECORDREQUEST
+DESCRIPTOR.message_types_by_name['PingMonitorRecord'] = _PINGMONITORRECORD
+DESCRIPTOR.message_types_by_name['PingMonitorGetRecordResponse'] = _PINGMONITORGETRECORDRESPONSE
 DESCRIPTOR.enum_types_by_name['MessageType'] = _MESSAGETYPE
 DESCRIPTOR.enum_types_by_name['Retcode'] = _RETCODE
+DESCRIPTOR.enum_types_by_name['PingMonitorManageAction'] = _PINGMONITORMANAGEACTION
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Message = _reflection.GeneratedProtocolMessageType('Message', (_message.Message,), dict(
@@ -462,6 +775,41 @@ StatusReportResponse = _reflection.GeneratedProtocolMessageType('StatusReportRes
   # @@protoc_insertion_point(class_scope:StatusReportResponse)
   ))
 _sym_db.RegisterMessage(StatusReportResponse)
+
+PingMonitorManageRequest = _reflection.GeneratedProtocolMessageType('PingMonitorManageRequest', (_message.Message,), dict(
+  DESCRIPTOR = _PINGMONITORMANAGEREQUEST,
+  __module__ = 'message_pb2'
+  # @@protoc_insertion_point(class_scope:PingMonitorManageRequest)
+  ))
+_sym_db.RegisterMessage(PingMonitorManageRequest)
+
+PingMonitorManageResponse = _reflection.GeneratedProtocolMessageType('PingMonitorManageResponse', (_message.Message,), dict(
+  DESCRIPTOR = _PINGMONITORMANAGERESPONSE,
+  __module__ = 'message_pb2'
+  # @@protoc_insertion_point(class_scope:PingMonitorManageResponse)
+  ))
+_sym_db.RegisterMessage(PingMonitorManageResponse)
+
+PingMonitorGetRecordRequest = _reflection.GeneratedProtocolMessageType('PingMonitorGetRecordRequest', (_message.Message,), dict(
+  DESCRIPTOR = _PINGMONITORGETRECORDREQUEST,
+  __module__ = 'message_pb2'
+  # @@protoc_insertion_point(class_scope:PingMonitorGetRecordRequest)
+  ))
+_sym_db.RegisterMessage(PingMonitorGetRecordRequest)
+
+PingMonitorRecord = _reflection.GeneratedProtocolMessageType('PingMonitorRecord', (_message.Message,), dict(
+  DESCRIPTOR = _PINGMONITORRECORD,
+  __module__ = 'message_pb2'
+  # @@protoc_insertion_point(class_scope:PingMonitorRecord)
+  ))
+_sym_db.RegisterMessage(PingMonitorRecord)
+
+PingMonitorGetRecordResponse = _reflection.GeneratedProtocolMessageType('PingMonitorGetRecordResponse', (_message.Message,), dict(
+  DESCRIPTOR = _PINGMONITORGETRECORDRESPONSE,
+  __module__ = 'message_pb2'
+  # @@protoc_insertion_point(class_scope:PingMonitorGetRecordResponse)
+  ))
+_sym_db.RegisterMessage(PingMonitorGetRecordResponse)
 
 
 # @@protoc_insertion_point(module_scope)
