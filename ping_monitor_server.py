@@ -28,6 +28,12 @@ def record_reporter(hostname: str, time: int, delay: int):
   print(hostname, time, delay)
   record_manage.add_record(hostname, time, delay)
 
+def add_monitor_host(hostname: str):
+  ping = Ping.Ping(hostname)
+  reporter = partial(record_reporter, hostname)
+  ping.set_reporter(reporter)
+  ping.start()
+  ping_hosts[hostname] = ping
 
 def ManageHandle(message: protocol.Message):
   response = make_response(message, protocol.PING_MONITOR_MANAGE_RESPONSE)
@@ -55,11 +61,7 @@ def ManageHandle(message: protocol.Message):
         response_body.retcode.retcode = protocol.SUCCESS
         response_body.retcode.error_message = "exists"
       else:
-        ping = Ping.Ping(hostname)
-        reporter = partial(record_reporter, hostname)
-        ping.set_reporter(reporter)
-        ping.start()
-        ping_hosts[hostname] = ping
+        add_monitor_host(hostname)
         response_body.retcode.retcode = protocol.SUCCESS
         response_body.retcode.error_message = "success"
     elif action == protocol.STOP_MONITOR:
