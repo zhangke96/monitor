@@ -2,6 +2,7 @@ import asyncio, getopt, sys, os
 from rpc import rpc_client
 from rpc.rpc_client import make_request, SendMessageResult
 from rpc import message_pb2 as protocol
+from datetime import datetime, timedelta, timezone
 
 def help():
   print('Usage:', sys.argv[0], ' -c [list/start/stop/get] -s hostname')
@@ -30,8 +31,11 @@ async def get_record_handle(hostname):
   result, response = await client.send_message(server, manage_request)
   if result == SendMessageResult.SUCCESS:
     response_body = response.body.ping_monitor_get_record_response
+    tz = timezone(timedelta(hours=8))
     for record in response_body.records:
-      print("begin:", record.begin_time.ToDatetime(), " end:", record.end_time.ToDatetime(), "latency:", record.delay_time, "ms")
+      begin_time = datetime.fromtimestamp(record.begin_time.seconds, tz)
+      end_time = datetime.fromtimestamp(record.end_time.seconds, tz)
+      print("begin:", begin_time, " end:", end_time, "latency:", record.delay_time, "ms")
   else:
     print(result)
 
