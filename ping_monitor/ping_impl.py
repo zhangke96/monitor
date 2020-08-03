@@ -70,7 +70,7 @@ class Ping(object):
       delay = self.recv_pong()
       if self.reporter:
         self.reporter(int(self.send_time), delay)
-      if delay is None:
+      if delay == -1:
         # 超时了
         print(self.hostname, " timeout")
         time.sleep(self.retry_time)
@@ -100,7 +100,7 @@ class Ping(object):
   def recv_pong(self):
     # self.socket.settimeout()
     timeout = 1.0
-    delay = None
+    delay = -1
     while True:
       if timeout < 0:
         break
