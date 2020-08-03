@@ -1,6 +1,6 @@
 import asyncio, getopt, sys, os
 from rpc import rpc_client
-from rpc.rpc_client import make_request
+from rpc.rpc_client import make_request, SendMessageResult
 from rpc import message_pb2 as protocol
 
 def help():
@@ -19,6 +19,7 @@ async def manage_request(command, hostname):
   result = await client.send_message(server, manage_request)
   print(result)
 
+# def transfer_pb_timestamp(timestamp: ):
 async def get_record_handle(hostname):
   manage_request = make_request(protocol.PING_MONITOR_GET_RECORD_REQUEST)
   body = manage_request.body.ping_monitor_get_record_request
@@ -26,8 +27,13 @@ async def get_record_handle(hostname):
   print(manage_request)
 
   client = rpc_client.RpcClient()
-  result = await client.send_message(server, manage_request)
-  print(result)
+  result, response = await client.send_message(server, manage_request)
+  if result == SendMessageResult.SUCCESS:
+    response_body = response.body.ping_monitor_get_record_response
+    for record in response_body.records:
+      print("begin:", record.begin_time.ToDatetime(), " end:", record.end_time.ToDatetime(), "latency:", record.delay_time, "ms")
+  else:
+    print(result)
 
 if __name__ == '__main__':
   try:
