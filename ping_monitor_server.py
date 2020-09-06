@@ -15,7 +15,8 @@ logging.basicConfig(filename='ping.log', level=logging.DEBUG, format=LOG_FORMAT)
 
 # ping_hosts = MutableMapping[str, Ping]
 ping_hosts = {}
-record_manage = RecordManage()
+mongo_address = ('172.17.0.1', 27017)
+record_manage = RecordManage(mongo_address)
 
 def address_reporter(hostname: str, address: str):
   pass
@@ -91,12 +92,18 @@ def GetRecordHandle(message: protocol.Message):
       response_body.retcode.retcode = protocol.NOT_EXIST
       response_body.retcode.error_message = "not exists"
     else:
-      monitor_records = record_manage.get_record(hostname)
+      begin_time = message.body.ping_monitor_get_record_request.begin_time
+      end_time = message.body.ping_monitor_get_record_request.end_time
+      monitor_records = record_manage.get_record(hostname, begin_time, end_time)
       response_body.records.extend(monitor_records)
   print(response)
   return response
 
 if __name__ == '__main__':
+  if len(sys.argv[1:]) >= 2:
+    mongo_ip = sys.argv[1]
+    mongo_port = int(sys.argv[2])
+    mongo_address = (mongo_ip, mongo_port)
   server = rpc_server.RpcServer('0.0.0.0', 8888)
   server.register_handle(protocol.PING_MONITOR_MANAGE_REQUEST, ManageHandle)
   server.register_handle(protocol.PING_MONITOR_GET_RECORD_REQUEST, GetRecordHandle)

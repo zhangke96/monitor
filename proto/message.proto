@@ -88,6 +88,8 @@ message PingMonitorManageResponse {
 message PingMonitorGetRecordRequest {
   string hostname = 1;
   // 获取时间
+  google.protobuf.Timestamp begin_time = 2;
+  google.protobuf.Timestamp end_time = 3;
 }
 
 message PingMonitorRecord {

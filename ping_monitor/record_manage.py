@@ -1,10 +1,14 @@
 from threading import Lock
 from rpc.message_pb2 import PingMonitorRecord
+import pymongo
 
 class RecordManage():
-  def __init__(self):
+  def __init__(self, mongo_address=('127.0.0.1', 27017)):
     self.records_map = {}
     self.lock = Lock()
+    self.mongo_client = pymongo.MongoClient(mongo_address[0], mongo_address[1])
+    self.record_db = self.mongo_client['monitor']
+    self.record_col = self.record_db['ping_monitor_record']
   
   def delay_same(self, before_delay, now_delay):
     # 判断是否在正负5ms之内
@@ -28,7 +32,7 @@ class RecordManage():
       # 超时记录
       record.delay_time = -1
     else:
-      record.delay_time = int(delay/1000) 
+      record.delay_time = int(delay/1000)
     monitor_records.append(record)
 
   def add_record(self, hostname, time, delay):
@@ -47,14 +51,21 @@ class RecordManage():
         now_delay = int(delay/1000)
       if not self.delay_same(exist_record.delay_time, now_delay):
         # 添加新纪录
+        self.insert_db(exist_record)
         self.add_new_record(monitor_records, hostname, time, delay)
       else:
         # 更新时间
         exist_record.end_time.FromSeconds(int(time))
 
-  def get_record(self, hostname):
+  def get_record(self, hostname, begin_time, end_time):
+    print(begin_time, end_time)
     monitor_records = []
     with self.lock:
       if hostname in self.records_map:
         monitor_records = self.records_map[hostname]
+    
     return monitor_records
+  
+  def insert_db(self, record: PingMonitorRecord):
+    to_insert = {'address': record.address, 'begin_time': record.begin_time.ToDatetime(), 'end_time': record.end_time.ToDatetime(), 'delay': record.delay_time}
+    self.record_col.insert_one(to_insert)
